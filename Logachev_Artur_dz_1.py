@@ -1,12 +1,9 @@
-import os
-structure = {'my_project': {'settings', 'mainapp', 'adminapp', 'authapp'}}
-for root, folders in structure.items():
-    if os.path.exists(root):
-        print('данные папки уже существуют на диске')
-    else:
-        for folder in folders:
-            cur_dir = os.path.join(root, folder)
-            os.makedirs(cur_dir)
+import re
+def email_parse(email_address):
+    parsed = re.findall(r"([^@&]+)@([\w_-][\w_\.-]*\.[\w_-]{2,})$", email_address)
+    if not parsed:
+        raise ValueError(f"wrong email: {email_address}")
+    print(dict(zip(["username", "domain"], parsed[0])))
 
-blockchain = os.makedirs()
-
+email_parse('someone@geekbrains.ru')
+email_parse('someone@geekbrainsru')

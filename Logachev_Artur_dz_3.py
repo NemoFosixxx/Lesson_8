@@ -1,20 +1,19 @@
-import os
-import shutil
-my_dir = 'homework_3'
-if not os.path.exists(my_dir):
-    os.mkdir(my_dir)
-folder = 'my_project'
-files = []
+from functools import wraps
+def typping(func):
+    @wraps(func)
+    def wrapper(*args):
+        for arg in args:
+            print(f'{func.__name__}({arg}: {type(arg)})', end=',')
+        return func(*args)
+    return wrapper
 
-for r, d, f in os.walk(folder):
-    for file in f:
-        if '.html' in file:
-            file.append(os.path.join(r, file))
-for path in files:
-    folder = os.path.join(my_dir, os.path.basename(os.path.dirname(path)))
-    if not os.path.exists(folder):
-        os.mkdir(folder)
-    save_path = os.path.join(folder, os.path.basename(path))
-    shutil.copy(path, save_path)
+@typping
+def calc_cube(*args):
+    """this shows only with 'from functools import wraps'"""
+    return list(map(lambda x: x ** 3, args))
 
 
+a = calc_cube(5)
+print(a)
+print(calc_cube.__name__)
+print(calc_cube.__doc__)
